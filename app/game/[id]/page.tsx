@@ -13,7 +13,7 @@ interface Player {
 
 interface Game {
     _id: string;
-    createdBy: string;          // имя создателя
+    createdBy: string;
     players: Player[];
 }
 
@@ -224,47 +224,53 @@ export default function GamePage() {
                     )}
 
                     <div className="space-y-2">
-                        {game.players.map((player) => {
-                            const isCurrent = currentPlayer?._id === player._id;
-                            const isBank = player.name === 'Банк';
-                            const isCreator = currentPlayer?.name === game?.createdBy;
+                        {[...game.players]
+                            .sort((a, b) => {
+                                // Банк всегда первый
+                                if (a.name === 'Банк') return -1;
+                                if (b.name === 'Банк') return 1;
+                                // Остальные игроки можно сортировать по имени (опционально)
+                                return a.name.localeCompare(b.name);
+                            })
+                            .map((player) => {
+                                // ... остальная логика для каждого игрока
+                                const isCurrent = currentPlayer?._id === player._id;
+                                const isBank = player.name === 'Банк';
+                                const isCreator = currentPlayer?.name === game?.createdBy;
+                                const showBankIssue = isCreator && !isBank && !isCurrent;
 
-                            // Показывать кнопку выдачи из банка, если:
-                            // - текущий игрок — создатель,
-                            // - и это не банк,
-                            const showBankIssue = isCreator && !isBank;
-
-                            return (
-                                <div key={player._id} className="flex items-center gap-2">
-                                    {/* Основная карточка игрока (клик = перевод от себя) */}
-                                    <div
-                                        className={`
-                flex-1 p-4 border rounded flex justify-between items-center
-                ${isCurrent ? 'bg-gray-100 cursor-default' : 'bg-white cursor-pointer hover:bg-blue-50'}
-                        `}
-                                        onClick={() => !isCurrent && handlePlayerClick(player)}
-                                    >
-                                        <span className="font-medium">{player.name}</span>
-                                        <span className="font-mono">{player.balance}</span>
-                                    </div>
-
-                                    {/* Кнопка выдачи из банка (только для создателя) */}
-                                    {showBankIssue && (
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleBankIssue(player);
-                                            }}
-                                            className="px-3 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-xl"
-                                            title="Выдать из банка"
+                                return (
+                                    <div key={player._id} className="flex items-center gap-2">
+                                        {/* Карточка игрока */}
+                                        <div
+                                            className={`
+              flex-1 p-4 border rounded flex justify-between items-center
+              ${isCurrent ? 'bg-gray-100 cursor-default' : 'bg-white cursor-pointer hover:bg-blue-50'}
+            `}
+                                            onClick={() => !isCurrent && handlePlayerClick(player)}
                                         >
-                                            💰
-                                        </button>
-                                    )}
-                                </div>
-                            );
-                        })}
+                                            <span className="font-medium">{player.name}</span>
+                                            <span className="font-mono">{player.balance}</span>
+                                        </div>
+
+                                        {/* Кнопка выдачи из банка (только для создателя) */}
+                                        {showBankIssue && (
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleBankIssue(player);
+                                                }}
+                                                className="px-3 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-xl"
+                                                title="Выдать из банка"
+                                            >
+                                                💰
+                                            </button>
+                                        )}
+                                    </div>
+                                );
+                            })}
                     </div>
+
                 </div>
             )}
 
