@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import {useState, useEffect} from 'react';
+import {useParams, useRouter} from 'next/navigation';
 import DigitalKeyboard from '@/components/DigitalKeyboard';
 
 
@@ -26,7 +26,7 @@ interface Transaction {
 }
 
 export default function GamePage() {
-    const { id } = useParams();
+    const {id} = useParams();
     const [game, setGame] = useState<Game | null>(null);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
@@ -155,7 +155,7 @@ export default function GamePage() {
         try {
             const res = await fetch(`/api/games/${id}/transactions`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     fromPlayerId: fromId,
                     toPlayerId: selectedReceiver._id,
@@ -232,8 +232,7 @@ export default function GamePage() {
                             // Показывать кнопку выдачи из банка, если:
                             // - текущий игрок — создатель,
                             // - и это не банк,
-                            // - и это не текущий игрок (себе выдавать не нужно, но можно и оставить, решайте)
-                            const showBankIssue = isCreator && !isBank && !isCurrent;
+                            const showBankIssue = isCreator && !isBank;
 
                             return (
                                 <div key={player._id} className="flex items-center gap-2">
@@ -242,7 +241,7 @@ export default function GamePage() {
                                         className={`
                 flex-1 p-4 border rounded flex justify-between items-center
                 ${isCurrent ? 'bg-gray-100 cursor-default' : 'bg-white cursor-pointer hover:bg-blue-50'}
-              `}
+                        `}
                                         onClick={() => !isCurrent && handlePlayerClick(player)}
                                     >
                                         <span className="font-medium">{player.name}</span>
