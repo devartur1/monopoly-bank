@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import clientPromise from '@/lib/mongodb';
 import { ObjectId } from 'mongodb';
+import { getPostHogClient } from '@/lib/posthog-server';
 
 export async function POST(
     req: NextRequest,
@@ -26,6 +27,19 @@ export async function POST(
 
         const newPlayer = { _id: new ObjectId(), name, balance: game.initialBalance };
         await games.updateOne({ _id: gameId }, { $push: { players: newPlayer } } as any);
+
+        const posthog = getPostHogClient();
+        posthog.capture({
+            distinctId: name,
+            event: 'player_joined_server',
+            properties: {
+                game_id: id,
+                player_name: name,
+                initial_balance: game.initialBalance,
+                created_by: game.createdBy,
+            },
+        });
+        await posthog.shutdown();
 
         return NextResponse.json({ player: newPlayer }, { status: 201 });
     } catch (error: any) {

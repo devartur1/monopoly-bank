@@ -1,0 +1,61 @@
+{
+  "Common": {
+    "appName": "Monopoly Bank",
+    "backToGame": "← Back to game",
+    "backToHome": "← Home",
+    "aboutLink": "About",
+    "copyright": "Monopoly Bank. All rights reserved.",
+    "createNewGame": "Create New Game"
+  },
+  "AboutPage": {
+    "title": "About Monopoly Bank App",
+    "description": "This app is designed to simplify playing Monopoly. It replaces the banker and allows players to transfer money to each other independently, as well as take money from the bank (game creator only). All transactions are recorded in history.",
+    "howItWorks": "How it works",
+    "features": [
+      "Game creator sets the starting balance and gets an invitation link.",
+      "Players follow the link, enter their name, and join the game.",
+      "The main page displays balances of all players and the bank.",
+      "To transfer money, click on another player (not yourself) or the bank — a digital keyboard will open.",
+      "The game creator sees a green 💰 button next to each player — it allows issuing money from the bank.",
+      "Transaction history is available on the 'History' tab."
+    ],
+    "contacts": "Contacts",
+    "contactEmail": "For any questions, write to email:"
+  },
+  "GamePage": {
+    "youAre": "You:",
+    "balance": "balance:",
+    "clickToTransfer": "👆 Click on a player or bank to transfer money",
+    "bank": "Bank",
+    "creatorHint": "🔑 You are the creator. Green 💰 button issues money from the bank.",
+    "playerHint": "👤 You are a regular player. Transfers only from yourself.",
+    "issueFromBank": "Issue from bank",
+    "balancesTab": "Balances",
+    "historyTab": "History",
+    "noTransactions": "No transactions yet",
+    "from": "From",
+    "to": "To",
+    "amount": "Amount",
+    "transfer": "Transfer",
+    "cancel": "Cancel",
+    "transferSuccess": "Transfer successful",
+    "transferFailed": "Transfer failed",
+    "networkError": "Network error",
+    "enterAmount": "Enter amount",
+    "invalidAmount": "Invalid amount",
+    "selfTransfer": "Cannot transfer money to yourself",
+    "bankTransferOnlyForCreator": "Only the creator can issue money from the bank",
+    "bankNotFound": "Bank not found",
+    "gameNotFound": "Game not found",
+    "loading": "Loading...",
+    "historyTitle": "Transaction history",
+    "transactionTime": "time"
+  },
+  "JoinPage": {
+    "title": "Join Game",
+    "nameLabel": "Your name",
+    "namePlaceholder": "Enter your name",
+    "joinButton": "Join",
+    "futureOptions": "In the future, you'll be able to choose name color and icon here."
+  }
+}

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import clientPromise from '@/lib/mongodb';
 import { ObjectId } from 'mongodb';
+import { getPostHogClient } from '@/lib/posthog-server';
 
 // GET
 export async function GET(
@@ -67,6 +68,21 @@ export async function POST(
             amount,
             timestamp: new Date(),
         });
+
+        // Capture server-side transaction event
+        const distinctId = req.headers.get('x-posthog-distinct-id') || fromPlayerId;
+        const posthog = getPostHogClient();
+        posthog.capture({
+            distinctId,
+            event: 'transaction_created',
+            properties: {
+                game_id: id,
+                from_player_id: fromPlayerId,
+                to_player_id: toPlayerId,
+                amount,
+            },
+        });
+        await posthog.shutdown();
 
         return NextResponse.json({ success: true }, { status: 201 });
     } catch (error: any) {
