@@ -230,7 +230,7 @@ export default function GamePage() {
                 const isCurrent = currentPlayer?._id === player._id;
                 const isBank = player.name === BANK_NAME;
                 const isCreator = currentPlayer?.name === game?.createdBy;
-                const showBankIssue = isCreator && !isBank && !isCurrent;
+                const showBankIssue = isCreator && !isBank;
 
                 return (
                   <div key={player._id} className="flex items-center gap-2">
