@@ -22,6 +22,7 @@ export default function Footer() {
           </Link>
         </p>
       </div>
+      <div style={{ height: "env(safe-area-inset-bottom)" }} />
     </footer>
   );
 }
