@@ -22,7 +22,7 @@ export default async function LocaleLayout({
     <NextIntlClientProvider messages={messages}>
       <div className="flex flex-col min-h-screen">
         <Header />
-        <main className="grow">{children}</main>
+        <main className="grow pb-16">{children}</main>
         <Footer />
       </div>
     </NextIntlClientProvider>
