@@ -9,6 +9,12 @@ export const metadata: Metadata = {
   description: "Помощник для игры в монополию",
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 export default function RootLayout({
   children,
 }: {

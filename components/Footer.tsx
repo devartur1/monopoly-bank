@@ -10,19 +10,20 @@ export default function Footer() {
   return (
     <footer
       className="bg-gray-100 border-t mt-8 py-4"
-      style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      style={{
+        paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)",
+      }}
     >
       <div className="container mx-auto px-4 text-center text-gray-600 text-xs">
         <p>
           © {new Date().getFullYear()} {t("copyright")}
         </p>
-        <p className="mt-2 pb-2">
+        <p className="mt-2">
           <Link href="/about" className="text-blue-500 hover:underline">
             {t("aboutLink")}
           </Link>
         </p>
       </div>
-      <div style={{ height: "env(safe-area-inset-bottom)" }} />
     </footer>
   );
 }
