@@ -5,6 +5,7 @@ import { useRouter } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import DigitalKeyboard from "@/components/DigitalKeyboard";
+import TransferDialog from "@/components/TransferDialog";
 
 interface Player {
   _id: string;
@@ -37,7 +38,6 @@ export default function GamePage() {
   const [selectedReceiver, setSelectedReceiver] = useState<Player | null>(null);
   const [isBankTransfer, setIsBankTransfer] = useState(false);
   const [showKeyboard, setShowKeyboard] = useState(false);
-  const [amount, setAmount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"balances" | "history">(
     "balances",
@@ -127,25 +127,23 @@ export default function GamePage() {
     setShowKeyboard(true);
   };
 
-  const handleTransfer = async () => {
+  const handleTransfer = async (transferAmount: number) => {
     if (!currentPlayer || !selectedReceiver) return;
-    if (amount <= 0) {
-      alert("Введите сумму больше 0");
+    if (transferAmount <= 0) {
+      alert(t("invalidAmount"));
       return;
     }
 
-    // Дополнительная проверка для режима банка
     if (isBankTransfer && currentPlayer.name !== game?.createdBy) {
-      alert("Только создатель может выдавать деньги из банка");
+      alert(t("bankTransferOnlyForCreator"));
       return;
     }
 
-    // Определяем отправителя
     let fromId: string;
     if (isBankTransfer) {
       const bank = game?.players.find((p) => p.name === BANK_NAME);
       if (!bank) {
-        alert("Банк не найден");
+        alert(t("bankNotFound"));
         return;
       }
       fromId = bank._id;
@@ -160,23 +158,24 @@ export default function GamePage() {
         body: JSON.stringify({
           fromPlayerId: fromId,
           toPlayerId: selectedReceiver._id,
-          amount,
+          amount: transferAmount,
         }),
       });
       const data = await res.json();
       if (res.ok) {
         setShowKeyboard(false);
-        setAmount(0);
-        // Обновить данные
+        setSelectedReceiver(null);
+        setIsBankTransfer(false);
+        // Обновить данные игры и транзакций
         const gameRes = await fetch(`/api/games/${id}`);
         setGame(await gameRes.json());
         const txRes = await fetch(`/api/games/${id}/transactions`);
         setTransactions(await txRes.json());
       } else {
-        alert(`Ошибка: ${data.error || "Transfer failed"}`);
+        alert(`${t("transferFailed")}: ${data.error || ""}`);
       }
     } catch (error) {
-      alert("Сетевая ошибка");
+      alert(t("networkError"));
     }
   };
 
@@ -209,7 +208,7 @@ export default function GamePage() {
               {t("balance")} {currentPlayer.balance})
             </p>
           )}
-          <p className="mb-4 text-sm text-gray-500">{t("clickToTransfer")}</p>
+          <p className="mb-2 text-sm text-gray-500">{t("clickToTransfer")}</p>
 
           {currentPlayer && (
             <p className="text-sm text-green-600 mb-2">
@@ -293,15 +292,12 @@ export default function GamePage() {
       )}
 
       {showKeyboard && selectedReceiver && currentPlayer && (
-        <DigitalKeyboard
-          value={amount}
-          onChange={setAmount}
+        <TransferDialog
           onConfirm={handleTransfer}
           onClose={() => {
             setShowKeyboard(false);
             setSelectedReceiver(null);
             setIsBankTransfer(false);
-            setAmount(0);
           }}
         />
       )}
