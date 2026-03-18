@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 import posthog from "posthog-js";
 
 export default function CreateGame() {
+  const t = useTranslations("CreatePage");
   const [createdBy, setCreatedBy] = useState("");
   const [initialBalance, setInitialBalance] = useState(1500);
   const [loading, setLoading] = useState(false);
@@ -49,10 +51,10 @@ export default function CreateGame() {
 
   return (
     <div className="container mx-auto p-4 max-w-md">
-      <h1 className="text-2xl font-bold mb-4">Создать игру</h1>
+      <h1 className="text-2xl font-bold mb-4">{t("title")}</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block mb-1">Ваше имя</label>
+          <label className="block mb-1">{t("nameLabel")}</label>
           <input
             type="text"
             value={createdBy}
@@ -62,7 +64,7 @@ export default function CreateGame() {
           />
         </div>
         <div>
-          <label className="block mb-1">Начальный баланс игроков</label>
+          <label className="block mb-1">{t("balanceLabel")}</label>
           <input
             type="number"
             value={initialBalance}
@@ -77,7 +79,7 @@ export default function CreateGame() {
           disabled={loading}
           className="w-full bg-blue-500 text-white p-3 rounded disabled:bg-gray-400"
         >
-          {loading ? "Создание..." : "Создать"}
+          {loading ? t("creating") : t("createButton")}
         </button>
       </form>
     </div>

@@ -51,6 +51,13 @@
     "historyTitle": "Transaction history",
     "transactionTime": "time"
   },
+  "CreatePage": {
+    "title": "Create Game",
+    "nameLabel": "Your name",
+    "balanceLabel": "Starting player balance",
+    "creating": "Creating...",
+    "createButton": "Create"
+  },
   "JoinPage": {
     "title": "Join Game",
     "nameLabel": "Your name",

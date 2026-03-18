@@ -51,6 +51,13 @@
     "historyTitle": "История переводов",
     "transactionTime": "время"
   },
+  "CreatePage": {
+    "title": "Создать игру",
+    "nameLabel": "Ваше имя",
+    "balanceLabel": "Начальный баланс игроков",
+    "creating": "Создание...",
+    "createButton": "Создать"
+  },
   "JoinPage": {
     "title": "Присоединение к игре",
     "nameLabel": "Ваше имя",
