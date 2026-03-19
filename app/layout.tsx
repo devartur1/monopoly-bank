@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Банк для Монополии",
-  description: "Помощник для игры в монополию",
+  title: "Monopoly Bank",
+  description: "Online bank for monopoly game",
 };
 
 export const viewport = {

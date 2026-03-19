@@ -1,11 +1,11 @@
-// middleware.ts
-import createMiddleware from 'next-intl/middleware';
+// proxy.ts
+import createMiddleware from "next-intl/middleware";
 
 export default createMiddleware({
-    locales: ['ru', 'en'],
-    defaultLocale: 'ru'
+  locales: ["ru", "en"],
+  defaultLocale: "ru",
 });
 
 export const config = {
-    matcher: ['/', '/(ru|en)/:path*']
+  matcher: ["/", "/(ru|en)/:path*"],
 };
